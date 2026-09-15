@@ -1,312 +1,98 @@
 
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>星野志｜宇宙探索爱好者的星空角落</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: #050816;
-      color: #e6e9ff;
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
-
-    /* 星空背景 */
-    .stars {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-      z-index: -2;
-    }
-
-    .stars::before,
-    .stars::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        radial-gradient(2px 2px at 20% 30%, white, transparent),
-        radial-gradient(1px 1px at 40% 70%, white, transparent),
-        radial-gradient(1px 1px at 60% 20%, white, transparent),
-        radial-gradient(2px 2px at 80% 50%, white, transparent),
-        radial-gradient(1px 1px at 10% 80%, white, transparent),
-        radial-gradient(1px 1px at 90% 10%, white, transparent);
-      background-size: 300px 300px;
-      animation: twinkle 8s infinite;
-    }
-
-    .stars::after {
-      background-image: 
-        radial-gradient(1px 1px at 25% 45%, #a5b4fc, transparent),
-        radial-gradient(2px 2px at 75% 85%, #c4b5fd, transparent),
-        radial-gradient(1px 1px at 55% 15%, white, transparent);
-      animation-delay: 4s;
-    }
-
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.8; }
-      50% { opacity: 0.4; }
-    }
-
-    /* 导航栏 */
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      padding: 20px 50px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(5, 8, 22, 0.8);
-      backdrop-filter: blur(10px);
-      z-index: 100;
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-      background: linear-gradient(45deg, #a5b4fc, #c4b5fd);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 30px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: #e6e9ff;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    .nav-links a:hover {
-      color: #a5b4fc;
-    }
-
-    /* 主视觉区域 */
-    .hero {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 0 20px;
-    }
-
-    .hero h1 {
-      font-size: 4rem;
-      margin-bottom: 20px;
-      background: linear-gradient(45deg, #a5b4fc, #c4b5fd, #f0abfc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: fadeInUp 1s ease;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      max-width: 600px;
-      margin-bottom: 30px;
-      opacity: 0.9;
-      animation: fadeInUp 1s ease 0.2s backwards;
-    }
-
-    .cta-button {
-      padding: 15px 40px;
-      background: linear-gradient(45deg, #6366f1, #8b5cf6);
-      color: white;
-      text-decoration: none;
-      border-radius: 30px;
-      font-size: 1rem;
-      transition: transform 0.3s, box-shadow 0.3s;
-      animation: fadeInUp 1s ease 0.4s backwards;
-    }
-
-    .cta-button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* 内容区域 */
-    .section {
-      padding: 100px 50px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .section-title {
-      font-size: 2.5rem;
-      margin-bottom: 50px;
-      text-align: center;
-      background: linear-gradient(45deg, #a5b4fc, #c4b5fd);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-    }
-
-    .card {
-      background: rgba(30, 41, 59, 0.5);
-      border: 1px solid rgba(165, 180, 252, 0.2);
-      border-radius: 15px;
-      padding: 30px;
-      transition: transform 0.3s, border-color 0.3s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(165, 180, 252, 0.5);
-    }
-
-    .card h3 {
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-      color: #a5b4fc;
-    }
-
-    .card p {
-      opacity: 0.8;
-    }
-
-    /* 页脚 */
-    footer {
-      text-align: center;
-      padding: 50px 20px;
-      opacity: 0.6;
-      border-top: 1px solid rgba(165, 180, 252, 0.1);
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        padding: 20px;
-      }
-      
-      .nav-links {
-        display: none;
-      }
-      
-      .hero h1 {
-        font-size: 2.5rem;
-      }
-      
-      .section {
-        padding: 50px 20px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Art of Fishing</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #2c3e50; line-height: 1.6; }
+  header {
+    background: linear-gradient(rgba(10,50,80,.7), rgba(10,50,80,.7)), url('https://images.unsplash.com/photo-1508233620467-f79f9e9d6f38?w=1600') center/cover no-repeat;
+    color: #fff; text-align: center; padding: 120px 20px;
+  }
+  header h1 { font-size: 3.5rem; margin-bottom: 10px; }
+  header p { font-size: 1.3rem; opacity: .9; }
+  nav { background: #0a3250; text-align: center; padding: 12px; position: sticky; top: 0; z-index: 10; }
+  nav a { color: #fff; text-decoration: none; margin: 0 18px; font-weight: 600; }
+  nav a:hover { color: #7fd4ff; }
+  section { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
+  h2 { text-align: center; color: #0a3250; font-size: 2.2rem; margin-bottom: 30px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+  .card { background: #f4f9fc; border-radius: 10px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,.08); transition: transform .2s; }
+  .card:hover { transform: translateY(-5px); }
+  .card h3 { color: #0a3250; margin-bottom: 10px; }
+  .card .icon { font-size: 2.5rem; }
+  ul.tips { list-style: none; max-width: 700px; margin: 0 auto; }
+  ul.tips li { background: #f4f9fc; margin: 12px 0; padding: 16px 20px; border-left: 5px solid #1e88c7; border-radius: 4px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+  th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+  th { background: #0a3250; color: #fff; }
+  tr:hover td { background: #eaf4fa; }
+  footer { background: #0a3250; color: #fff; text-align: center; padding: 30px; margin-top: 40px; }
+</style>
 </head>
 <body>
-  <div class="stars"></div>
 
-  <nav>
-    <div class="logo">星野志</div>
-    <ul class="nav-links">
-      <li><a href="#home">首页</a></li>
-      <li><a href="#explore">探索日志</a></li>
-      <li><a href="#gallery">星图馆</a></li>
-      <li><a href="#about">关于我</a></li>
-    </ul>
-  </nav>
+<header>
+  <h1>🎣 The Art of Fishing</h1>
+  <p>Explore the joy, patience, and skill of one of the world's oldest pastimes</p>
+</header>
 
-  <section class="hero" id="home">
-    <h1>星野志</h1>
-    <p>在星光里，记录宇宙探索的每一步。这里是一个宇宙探索爱好者的个人角落，记录星空、行星、航天任务，也记录每一次仰望夜空时的心动。</p>
-    <a href="#explore" class="cta-button">开始探索</a>
-  </section>
+<nav>
+  <a href="#types">Types</a>
+  <a href="#gear">Gear</a>
+  <a href="#tips">Tips</a>
+  <a href="#species">Common Species</a>
+</nav>
 
-  <section class="section" id="explore">
-    <h2 class="section-title">探索方向</h2>
-    <div class="cards">
-      <div class="card">
-        <h3> 天文观测</h3>
-        <p>记录每一次观测月相、行星、流星雨和深空天体的夜晚，也记录设备、天气与星空的变化。</p>
-      </div>
-      <div class="card">
-        <h3> 星空摄影</h3>
-        <p>用镜头捕捉银河、星轨、星云和夜空中的瞬间，把肉眼难以停留的美保存下来。</p>
-      </div>
-      <div class="card">
-        <h3> 航天资讯</h3>
-        <p>关注火箭发射、探测器任务、空间站动态和人类探索宇宙的新进展。</p>
-      </div>
-      <div class="card">
-        <h3>🪐 宇宙知识</h3>
-        <p>整理行星、恒星、星系、黑洞、宇宙尺度等知识，让好奇心有迹可循。</p>
-      </div>
-      <div class="card">
-        <h3> 读书笔记</h3>
-        <p>记录关于宇宙、天文、航天和科学探索的书籍阅读与思考。</p>
-      </div>
-      <div class="card">
-        <h3> 探索感悟</h3>
-        <p>写下仰望星空时的感受，也写下宇宙带给生活的启发与想象力。</p>
-      </div>
-    </div>
-  </section>
+<section id="types">
+  <h2>Types of Fishing</h2>
+  <div class="cards">
+    <div class="card"><div class="icon">🌊</div><h3>Freshwater Fishing</h3><p>Enjoy lakes, rivers, and ponds targeting bass, trout, and catfish. Perfect for beginners and family outings.</p></div>
+    <div class="card"><div class="icon">⚓</div><h3>Saltwater Fishing</h3><p>From shore casting to deep-sea charters, chase marlin, tuna, and snapper in the open ocean.</p></div>
+    <div class="card"><div class="icon">🪰</div><h3>Fly Fishing</h3><p>An elegant technique using artificial flies to catch trout and salmon in clear, flowing streams.</p></div>
+    <div class="card"><div class="icon">🧊</div><h3>Ice Fishing</h3><p>Drill a hole in frozen lakes and drop a line for perch and walleye during winter months.</p></div>
+  </div>
+</section>
 
-  <section class="section" id="gallery">
-    <h2 class="section-title">最新记录</h2>
-    <div class="cards">
-      <div class="card">
-        <h3>夏夜银河观测</h3>
-        <p>在无光害的郊外，第一次清晰看见银河横贯夜空。那一刻才明白，宇宙的美不需要解释。</p>
-      </div>
-      <div class="card">
-        <h3>月球环形山记录</h3>
-        <p>通过望远镜观察月球表面，环形山、月海和明暗交界线都呈现出令人震撼的细节。</p>
-      </div>
-      <div class="card">
-        <h3>流星雨观测计划</h3>
-        <p>整理观测时间、辐射点位置、最佳方向和拍摄参数，为下一次夜空记录做准备。</p>
-      </div>
-    </div>
-  </section>
+<section id="gear">
+  <h2>Essential Gear</h2>
+  <div class="cards">
+    <div class="card"><div class="icon">🎣</div><h3>Rod & Reel</h3><p>Choose a spinning combo for versatility, or a baitcaster for precision casting.</p></div>
+    <div class="card"><div class="icon">🪝</div><h3>Hooks & Lures</h3><p>Carry a variety of sizes — soft plastics, crankbaits, spinners, and live bait.</p></div>
+    <div class="card"><div class="icon">🧵</div><h3>Line</h3><p>Monofilament for stretch and forgiveness; braided line for strength and sensitivity.</p></div>
+    <div class="card"><div class="icon">🎒</div><h3>Tackle Box</h3><p>Keep pliers, sinkers, bobbers, and extra hooks organized and ready to go.</p></div>
+  </div>
+</section>
 
-  <section class="section" id="about">
-    <h2 class="section-title">关于我</h2>
-    <div class="card" style="max-width: 800px; margin: 0 auto;">
-      <h3>一个热爱宇宙的人</h3>
-      <p>我喜欢宇宙，不只是因为它遥远而壮丽，更因为它让人意识到：我们站在地球上，却可以不断向更深处提问。</p>
-      <br>
-      <p>从第一次用望远镜看见月球环形山开始，我就迷上了星空。后来，我开始记录观测、拍摄星轨、整理航天资讯，也慢慢把这份热爱变成了一座属于自己的宇宙档案馆。</p>
-      <br>
-      <p>希望这个网站能成为一个安静的星空角落，也希望能遇见同样热爱宇宙的人。</p>
-    </div>
-  </section>
+<section id="tips">
+  <h2>Top Tips for Beginners</h2>
+  <ul class="tips">
+    <li><strong>Check the weather & water:</strong> Fish are more active during low-light hours — dawn and dusk are prime times.</li>
+    <li><strong>Match the hatch:</strong> Use lures and bait that resemble the local forage fish or insects.</li>
+    <li><strong>Be patient and quiet:</strong> Noise and sudden movements can spook fish quickly.</li>
+    <li><strong>Learn your local regulations:</strong> Always check licensing rules, size limits, and catch limits.</li>
+    <li><strong>Practice catch and release:</strong> Wet your hands, handle gently, and return fish quickly to preserve populations.</li>
+  </ul>
+</section>
 
-  <footer>
-    <p> 2026 星野志｜CosmicField｜保持好奇，仰望星空</p>
-  </footer>
+<section id="species">
+  <h2>Common Species</h2>
+  <table>
+    <tr><th>Species</th><th>Habitat</th><th>Best Bait</th><th>Season</th></tr>
+    <tr><td>Largemouth Bass</td><td>Lakes & ponds</td><td>Soft plastic worms</td><td>Spring–Fall</td></tr>
+    <tr><td>Rainbow Trout</td><td>Cold rivers & streams</td><td>Flies & spinners</td><td>Spring</td></tr>
+    <tr><td>Catfish</td><td>Rivers & reservoirs</td><td>Stink bait & cut fish</td><td>Summer nights</td></tr>
+    <tr><td>Bluefin Tuna</td><td>Open ocean</td><td>Live bait & jigs</td><td>Late summer</td></tr>
+    <tr><td>Perch</td><td>Lakes (under ice too)</td><td>Small jigs & worms</td><td>Winter</td></tr>
+  </table>
+</section>
+
+<footer>
+  <p>© 2026 The Art of Fishing — Tight lines and happy fishing! 🎣</p>
+</footer>
+
 </body>
 </html>
